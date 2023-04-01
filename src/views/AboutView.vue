@@ -4,11 +4,14 @@
       <div class="col-11 col-lg-5 col-md-7">
         <div class="about">
           <div class="bg-white p-md-5 p-3">
-            <img :src="auth.user.photoURL" alt="" />
-            <p class="font-weight-bold mt-2">
-              Hello {{ auth.user.displayName }}, you logged in using
-              {{ auth.user.email }}
-            </p>
+            <div v-if="auth.form !== 'phone'">
+              <img :src="auth.user.photoURL" alt="" />
+              <p class="font-weight-bold mt-2">
+                Hello {{ auth.user.displayName }}, you logged in using
+                {{ auth.user.email }}
+              </p>
+            </div>
+            <div v-else>Hello, you logged in using {{ auth.phNo }}</div>
 
             <button class="btn btn-secondary" @click="auth.signOut">
               Sign out

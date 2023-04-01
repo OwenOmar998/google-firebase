@@ -1,7 +1,11 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import { getAuth } from "firebase/auth";
-
+declare global {
+  interface Window {
+    recaptchaVerifier: any;
+  }
+}
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",

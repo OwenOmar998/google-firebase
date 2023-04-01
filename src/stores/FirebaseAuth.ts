@@ -8,8 +8,6 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
-  signInWithPhoneNumber,
-  ApplicationVerifier,
   RecaptchaVerifier,
 } from "firebase/auth";
 import "firebase/compat/auth";
@@ -17,22 +15,39 @@ import router from "@/router";
 export const useFirebaseAuth = defineStore("FirebaseAuth", {
   state: () => ({
     form: "signin" as string,
-    showLogin: true as boolean,
     isValid: true as boolean,
-    OtpValid: true as boolean,
     signInValid: true as boolean,
     signUpValid: true as boolean,
     errorMsg: "" as string,
     isLoggedIn: false as boolean,
     loginReq: false as boolean,
     signUpReq: false as boolean,
-    sendOtpReq: false as boolean,
-    verifyOtpReq: false as boolean,
     user: null as any,
     verificationCode: "" as any,
     confirmationResult: null as any,
+    phNo: "" as string,
   }),
   actions: {
+    async authenticate(phNo: string) {
+      this.phNo = phNo;
+      const phoneNumber = phNo;
+      const appVerifier = new firebase.auth.RecaptchaVerifier(
+        "recaptcha-container"
+      );
+      try {
+        const confirmationResult = await firebase
+          .auth()
+          .signInWithPhoneNumber(phoneNumber, appVerifier);
+        const verificationCode = window.prompt("Enter verification code");
+        const userCredential = await confirmationResult.confirm(
+          verificationCode as string
+        );
+        const user = userCredential.user;
+        router.push("/about");
+      } catch (error) {
+        console.error(error);
+      }
+    },
     validPassword(password: string) {
       if (
         password.length < 7 ||
@@ -60,7 +75,7 @@ export const useFirebaseAuth = defineStore("FirebaseAuth", {
           this.isLoggedIn = true;
           router.push("/about");
           this.signUpReq = false;
-          this.user = getAuth().currentUser;
+          this.user = auth.currentUser;
           this.user.displayName = firstName + " " + lastName;
           this.user.email = signUpEmail;
           console.log(this.user);
@@ -108,6 +123,7 @@ export const useFirebaseAuth = defineStore("FirebaseAuth", {
       this.signInValid = true;
       this.signUpValid = true;
       const auth = getAuth();
+      firebase.auth().useDeviceLanguage();
       signOut(auth).then(() => {
         this.signUpValid = true;
         router.push("/");
@@ -115,11 +131,13 @@ export const useFirebaseAuth = defineStore("FirebaseAuth", {
     },
     singInWithGoogle(email: string, password: string) {
       const provider = new GoogleAuthProvider();
-      signInWithPopup(getAuth(), provider)
+      const auth = getAuth();
+      firebase.auth().useDeviceLanguage();
+      signInWithPopup(auth, provider)
         .then((result) => {
           console.log(result.user);
           console.log(result.user.displayName);
-          this.user = getAuth().currentUser;
+          this.user = auth.currentUser;
           router.push("/about");
         })
         .catch((error) => {
