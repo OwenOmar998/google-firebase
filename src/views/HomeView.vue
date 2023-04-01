@@ -1,18 +1,34 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div class="bg-success">
+    <div class="row justify-content-center align-items-center inner-row">
+      <div class="col-11 col-lg-5 col-md-7">
+        <!-- login form -->
+        <SignIn />
+
+        <!-- Sign up form -->
+        <SignUp />
+
+        <!-- Phone number form -->
+        <PhoneNumber />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import { defineComponent } from "vue";
+import SignIn from "../components/SignIn.vue";
+import SignUp from "../components/SignUp.vue";
+import PhoneNumber from "../components/PhoneNumber.vue";
 
 export default defineComponent({
-  name: 'HomeView',
-  components: {
-    HelloWorld,
-  },
+  name: "HomeView",
+  components: { SignIn, SignUp, PhoneNumber },
 });
 </script>
+
+<style>
+.inner-row {
+  height: 100vh;
+}
+</style>
