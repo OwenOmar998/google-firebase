@@ -27,9 +27,11 @@ export const useFirebaseAuth = defineStore("FirebaseAuth", {
     confirmationResult: null as any,
     phNo: "" as string,
     phoneError: "" as string,
+    phoneReq: false as boolean,
   }),
   actions: {
     async authenticate(phNo: string) {
+      this.phoneReq = true;
       this.phNo = phNo;
       const phoneNumber = phNo;
       const appVerifier = new firebase.auth.RecaptchaVerifier(
@@ -46,8 +48,10 @@ export const useFirebaseAuth = defineStore("FirebaseAuth", {
         const user = userCredential.user;
         router.push("/about");
         this.phoneError = "";
+        this.phoneReq = false;
       } catch (error: any) {
         this.phoneError = error.code;
+        this.phoneReq = false;
       }
     },
     validPassword(password: string) {

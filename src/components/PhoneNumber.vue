@@ -25,7 +25,20 @@
         </div>
         <div style="col-8" id="recaptcha-container"></div>
 
-        <button type="submit" class="btn btn-success">Get OTP</button>
+        <button
+          type="submit"
+          v-bind:disabled="auth.phoneReq"
+          v-bind:class="{ disabled: auth.phoneReq }"
+          class="btn btn-success"
+        >
+          <div
+            v-if="auth.phoneReq"
+            class="spinner-border spinner-border-sm text-secondary loader"
+            role="status"
+          ></div>
+          <span v-if="!auth.phoneReq">Get OTP</span>
+          <span v-if="auth.phoneReq"> Please Wait...</span>
+        </button>
         <div class="text-danger mt-1" v-if="auth.phoneError">
           {{ auth.phoneError }}
         </div>
