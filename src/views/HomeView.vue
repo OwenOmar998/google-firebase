@@ -1,6 +1,6 @@
 <template>
   <div class="bg-success">
-    <div class="row justify-content-center align-items-center inner-row">
+    <div class="row justify-content-center align-items-center py-5">
       <div class="col-11 col-lg-5 col-md-7">
         <!-- login form -->
         <SignIn />
@@ -26,9 +26,3 @@ export default defineComponent({
   components: { SignIn, SignUp, PhoneNumber },
 });
 </script>
-
-<style>
-.inner-row {
-  height: 100vh;
-}
-</style>
