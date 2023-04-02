@@ -1,4 +1,7 @@
 # google-firebase
+Phone numbers for testing:
++1 987-654-3210 >> 654321
++1 1234567890   >> 123456
 
 ## Project setup
 ```
