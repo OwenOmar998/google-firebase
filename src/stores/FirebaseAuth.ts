@@ -26,6 +26,7 @@ export const useFirebaseAuth = defineStore("FirebaseAuth", {
     verificationCode: "" as any,
     confirmationResult: null as any,
     phNo: "" as string,
+    phoneError: "" as string,
   }),
   actions: {
     async authenticate(phNo: string) {
@@ -44,8 +45,9 @@ export const useFirebaseAuth = defineStore("FirebaseAuth", {
         );
         const user = userCredential.user;
         router.push("/about");
-      } catch (error) {
-        console.error(error);
+        this.phoneError = "";
+      } catch (error: any) {
+        this.phoneError = error.code;
       }
     },
     validPassword(password: string) {

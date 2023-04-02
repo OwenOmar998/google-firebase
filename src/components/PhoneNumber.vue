@@ -26,8 +26,10 @@
         <div style="col-8" id="recaptcha-container"></div>
 
         <button type="submit" class="btn btn-success">Get OTP</button>
+        <div class="text-danger mt-1" v-if="auth.phoneError">
+          {{ auth.phoneError }}
+        </div>
       </form>
-      <br />
 
       <div class="mt-3">
         <span>Already have account? </span>
